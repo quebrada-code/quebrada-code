@@ -140,9 +140,23 @@ func (a *AuthService) GeneratePasswordResetToken(email string) (string, error) {
 	return user.ResetToken, nil
 }
 
-func (a *AuthService) ResetPassword(userId string, token string, newPassword string) error {
-	//TODO implement me
-	panic("implement me")
+func (a *AuthService) ResetPassword(email string, token string, newPassword string) error {
+	user, err := a.FindByEmail(email)
+	if err != nil {
+		return err
+	}
+
+	if token == user.ResetToken {
+		password, err := a.passwordHasher.HashPassword(newPassword)
+		if err != nil {
+			return err
+		}
+		user.PasswordHash = password
+		a.DB.Save(user)
+		return nil
+	} else {
+		return errors.New("reset token é inválido")
+	}
 }
 
 func (a *AuthService) GenerateEmailConfirmationToken(user entities.User) error {

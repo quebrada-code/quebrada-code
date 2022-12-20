@@ -1,10 +1,24 @@
 basePath: /api/v1/
 definitions:
+  models.ConfirmResetPassword:
+    properties:
+      email:
+        type: string
+      newPassword:
+        type: string
+      token:
+        type: string
+    type: object
   models.EmailCredential:
     properties:
       email:
         type: string
       password:
+        type: string
+    type: object
+  models.ResetPassword:
+    properties:
+      email:
         type: string
     type: object
   models.Response:
@@ -48,6 +62,80 @@ info:
   title: Quebrada Code API
   version: "1.0"
 paths:
+  /auth/confirm-reset-password:
+    post:
+      consumes:
+      - application/json
+      description: reset user password
+      parameters:
+      - description: sign up info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.ConfirmResetPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Auth
+  /auth/reset-password:
+    post:
+      consumes:
+      - application/json
+      description: reset user password
+      parameters:
+      - description: sign up info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.ResetPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Auth
   /auth/sign-in:
     post:
       consumes:

@@ -156,7 +156,7 @@ func (a AuthController) ResetPassword(c *gin.Context) {
 // @Failure 400,404 {object} models.Response
 // @Failure 500 {object} models.Response
 // @Failure default {object} models.Response
-// @Router /auth/reset-password [post]
+// @Router /auth/confirm-reset-password [post]
 func (a AuthController) ConfirmResetPassword(c *gin.Context) {
 
 	model, err := ValidateModel[models.ConfirmResetPassword](c)

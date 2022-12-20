@@ -4,8 +4,8 @@ package main
 //Done: Criar roles
 //Done: Criar usuários (estudante e admin)
 //Done: Validar codigo de usuário por e-mail
-//TODO: Realizar login utilizando e-mail e senha
-//TODO: Esqueci senha
+//Done: Realizar login utilizando e-mail e senha
+//Done: Esqueci senha
 
 // Autorização - 3 dias
 //TODO: Criar middleware para usuário logados e endpoint roles
