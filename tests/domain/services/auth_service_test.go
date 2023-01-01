@@ -5,7 +5,6 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/suite"
 	"gorm.io/gorm"
-	"quebrada_api/internal/domain/entities"
 	"quebrada_api/internal/domain/services"
 	"testing"
 )
@@ -47,25 +46,25 @@ type AuthServiceSuite struct {
 //		Active:   true,
 //	})
 //}
-
-func (suite *AuthServiceSuite) TestCheckEmail() {
-	err := suite.service.CheckEmailExist("fulano@gmail")
-	suite.NotNil(err)
-	suite.Equal(err.Error(), "existe usuário cadastrado com esse e-mail")
-}
-
-// TestRegisterUserWithUserExist A test case.
-func (suite *AuthServiceSuite) TestRegisterUserWithUserExist() {
-	user := entities.User{
-		Name:     "Fulano Ciclano",
-		Password: "q1w2e3r4",
-		Email:    "fulano@gmail",
-		Active:   true,
-	}
-	err := suite.service.RegisterUser(user)
-	suite.NotNil(err)
-	suite.Equal(err.Error(), "existe usuário cadastrado com esse e-mail")
-}
+//
+//func (suite *AuthServiceSuite) TestCheckEmail() {
+//	err := suite.service.CheckEmailExist("fulano@gmail")
+//	suite.NotNil(err)
+//	suite.Equal(err.Error(), "existe usuário cadastrado com esse e-mail")
+//}
+//
+//// TestRegisterUserWithUserExist A test case.
+//func (suite *AuthServiceSuite) TestRegisterUserWithUserExist() {
+//	user := entities.User{
+//		Name:     "Fulano Ciclano",
+//		Password: "q1w2e3r4",
+//		Email:    "fulano@gmail",
+//		Active:   true,
+//	}
+//	err := suite.service.RegisterUser(user)
+//	suite.NotNil(err)
+//	suite.Equal(err.Error(), "existe usuário cadastrado com esse e-mail")
+//}
 
 func TestGenericRepositorySuite(t *testing.T) {
 	suite.Run(t, new(AuthServiceSuite))

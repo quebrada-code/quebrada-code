@@ -13,7 +13,8 @@ import (
 // @BasePath /api/v1/
 
 type Router struct {
-	AuthController controllers.AuthController
+	AuthController   controllers.AuthController
+	CourseController controllers.CourseController
 }
 
 func (h *Router) Init(api *gin.RouterGroup) {

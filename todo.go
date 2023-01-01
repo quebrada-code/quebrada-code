@@ -7,6 +7,12 @@ package main
 //Done: Realizar login utilizando e-mail e senha
 //Done: Esqueci senha
 
+// CI
+// Executar test
+// Executar lint
+// Executar sonar
+// Configurar pré-commit
+
 // Autorização - 3 dias
 //TODO: Criar middleware para usuário logados e endpoint roles
 
