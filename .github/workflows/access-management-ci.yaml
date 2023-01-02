@@ -1,4 +1,5 @@
 on:
+  push:
   pull_request:
     paths:
       - components/access-management/**
