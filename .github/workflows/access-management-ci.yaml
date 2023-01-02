@@ -1,5 +1,9 @@
-on: push
-name: CI
+on:
+  pull_request:
+    paths:
+      - components/access-management/**
+
+name: Access Management CI
 jobs:
   build:
     name: Build, Test and Analyze
