@@ -1,5 +1,4 @@
 on:
-  push:
   pull_request:
     paths:
       - components/access-management/**
@@ -18,5 +17,3 @@ jobs:
         uses: actions/checkout@master
       - name: Build and Test
         run: make -C components/access-management test  
-      - name: Analyze with SonarCloud
-        uses: sonarsource/sonarcloud-github-action@master
