@@ -55,10 +55,10 @@ type SignUpModel struct {
 
 func (a SignUpModel) Validate() error {
 	return validation.ValidateStruct(&a,
-		validation.Field(&a.Name, validation.Required, validation.Length(3, 50)),
-		validation.Field(&a.Email, validation.Required, is.Email),
-		validation.Field(&a.Nickname, validation.Required, is.LowerCase, validation.Length(3, 10)),
-		validation.Field(&a.ZipCode, validation.Required, validation.Match(regexp.MustCompile("[0-9]{5}-[0-9]{3}"))),
+		validation.Field(&a.Name, validation.Required.Error("Campo nome é obrigatório."), validation.Length(3, 50)),
+		validation.Field(&a.Email, validation.Required.Error("Campo e-mail é obrigatório."), is.Email.Error("E-mail é inválido")),
+		validation.Field(&a.Nickname, validation.Required.Error("Campo nickname é obrigatório."), is.LowerCase, validation.Length(3, 10)),
+		validation.Field(&a.ZipCode, validation.Required.Error("Campo CEP é obrigatório."), validation.Match(regexp.MustCompile("[0-9]{5}-[0-9]{3}"))),
 	)
 }
 

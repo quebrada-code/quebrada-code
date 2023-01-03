@@ -5,16 +5,14 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/suite"
 	"gorm.io/gorm"
-	"quebrada_api/internal/domain/services"
 	"testing"
 )
 
 type AuthServiceSuite struct {
 	suite.Suite
-	conn    *sql.DB
-	DB      *gorm.DB
-	mock    sqlmock.Sqlmock
-	service services.UserService
+	conn *sql.DB
+	DB   *gorm.DB
+	mock sqlmock.Sqlmock
 }
 
 //
