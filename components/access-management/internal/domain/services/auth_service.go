@@ -22,10 +22,10 @@ type IAuthService interface {
 	ResetPassword(email string, token string, newPassword string) error
 	GenerateEmailConfirmationToken(user entities.User) error
 	ConfirmEmail(userId uint, token string) error
-	AddToRole(userId uint, roleName string) error
-	RemoveToRole(userId uint, roleName string) error
-	GrantPolicy(userId uint, policyName string) error
-	RevokePolicy(userId uint, policyName string) error
+	//AddToRole(userId uint, roleName string) error
+	//RemoveToRole(userId uint, roleName string) error
+	//GrantPolicy(userId uint, policyName string) error
+	//RevokePolicy(userId uint, policyName string) error
 }
 
 type VerificationCode struct {
@@ -186,25 +186,22 @@ func (a *AuthService) ConfirmEmail(userId uint, token string) error {
 	return tx.Error
 }
 
-func (a *AuthService) AddToRole(userId uint, roleName string) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (a *AuthService) RemoveToRole(userId uint, roleName string) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (a *AuthService) GrantPolicy(userId uint, policyName string) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (a *AuthService) RevokePolicy(userId uint, policyName string) error {
-	//TODO implement me
-	panic("implement me")
-}
+//
+//func (a *AuthService) AddToRole(userId uint, roleName string) error {
+//	panic("implement me")
+//}
+//
+//func (a *AuthService) RemoveToRole(userId uint, roleName string) error {
+//	panic("implement me")
+//}
+//
+//func (a *AuthService) GrantPolicy(userId uint, policyName string) error {
+//	panic("implement me")
+//}
+//
+//func (a *AuthService) RevokePolicy(userId uint, policyName string) error {
+//	panic("implement me")
+//}
 
 func (a *AuthService) CheckEmailExist(email string) (bool, error) {
 	query, err := a.userRepository.Query(spec.GetUserWithEmailSpec(email))
