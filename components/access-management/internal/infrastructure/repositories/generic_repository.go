@@ -44,7 +44,6 @@ func (r Repository[T]) Insert(entity T) error {
 }
 
 func (r Repository[T]) Update(entity T) error {
-	//TODO implement me
 	panic("implement me")
 }
 

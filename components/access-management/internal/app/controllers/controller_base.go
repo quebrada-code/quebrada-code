@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	"quebrada_api/internal/app/models"
 )
@@ -20,7 +21,11 @@ func ValidateModel[T models.IModel](c *gin.Context) (T, error) {
 
 	err := model.Validate()
 	if err != nil {
-		c.AbortWithStatusJSON(400, err.Error())
+		c.AbortWithStatusJSON(
+			400,
+			models.BadRequestMessage{},
+		)
+		return model, errors.New("bad request error")
 	}
 
 	return model, nil
