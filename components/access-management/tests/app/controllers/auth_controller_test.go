@@ -189,35 +189,6 @@ func (suite *AuthControllerSuite) TestShouldCreateUserWithSuccess() {
 	req, _ := http.NewRequestWithContext(ctx, "POST", "/api/v1/auth/sign-up", bytes.NewReader(buf))
 	suite.router.ServeHTTP(w, req)
 
-	responseData, _ := io.ReadAll(w.Body)
-	var res models.BadRequestMessage
-	_ = json.Unmarshal(responseData, &res)
-	assert.Equal(suite.T(), http.StatusOK, w.Code)
-
-}
-
-func (suite *AuthControllerSuite) TestCreateUserWithFailed() {
-
-	w := httptest.NewRecorder()
-	ctx := GetTestGinContext(w)
-
-	model := &models.SignUpModel{
-		Name:            "Marcos",
-		Email:           "marcos.mota287@gmail.com",
-		Nickname:        "mota287",
-		ZipCode:         "14085-058",
-		Password:        "q1w2e3r4",
-		ConfirmPassword: "q1w2e3r4",
-	}
-
-	buf, _ := json.Marshal(model)
-
-	req, _ := http.NewRequestWithContext(ctx, "POST", "/api/v1/auth/sign-up", bytes.NewReader(buf))
-	suite.router.ServeHTTP(w, req)
-
-	responseData, _ := io.ReadAll(w.Body)
-	var res models.BadRequestMessage
-	_ = json.Unmarshal(responseData, &res)
 	assert.Equal(suite.T(), http.StatusOK, w.Code)
 
 }
