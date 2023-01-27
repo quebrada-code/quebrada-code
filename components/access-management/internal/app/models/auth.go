@@ -4,7 +4,6 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/go-ozzo/ozzo-validation/is"
 	"regexp"
-	"time"
 )
 
 type ResetPassword struct {
@@ -48,7 +47,6 @@ type SignUpModel struct {
 	Email           string
 	Nickname        string
 	ZipCode         string
-	DateBirth       time.Time
 	Password        string
 	ConfirmPassword string
 }

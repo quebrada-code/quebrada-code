@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"quebrada_api/internal/app/models"
@@ -75,6 +76,18 @@ func (a AuthController) SignUp(c *gin.Context) {
 
 	model, err := ValidateModel[models.SignUpModel](c)
 	if err != nil {
+		return
+	}
+
+	if model.Password != model.ConfirmPassword {
+		c.AbortWithStatusJSON(
+			400,
+			models.BadRequestMessage{
+				Errors: map[string]error{
+					"password": errors.New("senhas não correspondem"),
+				},
+			},
+		)
 		return
 	}
 

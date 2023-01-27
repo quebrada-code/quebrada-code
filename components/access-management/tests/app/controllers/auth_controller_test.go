@@ -21,7 +21,6 @@ import (
 	"quebrada_api/migrations"
 	"quebrada_api/pkg/identity"
 	"testing"
-	"time"
 )
 
 func SetUpRouter() *gin.Engine {
@@ -94,30 +93,133 @@ func (suite *AuthControllerSuite) TestShouldValidateModelWithSuccess() {
 	w := httptest.NewRecorder()
 	ctx := GetTestGinContext(w)
 
-	payload := &models.SignUpModel{
-		Name:            "",
-		Email:           "",
-		Nickname:        "",
-		ZipCode:         "",
-		DateBirth:       time.Time{},
-		Password:        "",
-		ConfirmPassword: "",
+	type signUpModelRequest struct {
+		Name            string
+		Email           string
+		Nickname        string
+		ZipCode         string
+		Password        string
+		ConfirmPassword string
 	}
 
-	buf, _ := json.Marshal(payload)
+	var tests = []struct {
+		name    string
+		resquet *signUpModelRequest
+	}{
+		{"All field empty", &signUpModelRequest{
+			Name:            "",
+			Email:           "",
+			Nickname:        "",
+			ZipCode:         "",
+			Password:        "",
+			ConfirmPassword: "",
+		}},
+		{"Zip code incorret", &signUpModelRequest{
+			Name:            "Marcos Mota",
+			Email:           "marcos.mota287@gmail.com",
+			Nickname:        "mota287",
+			ZipCode:         "14058085",
+			Password:        "q1w2e3r4",
+			ConfirmPassword: "q1w2e3r4",
+		}},
+		{"Senhas não correspondem", &signUpModelRequest{
+			Name:            "Marcos Mota",
+			Email:           "marcos.mota287@gmail.com",
+			Nickname:        "mota287",
+			ZipCode:         "14058-085",
+			Password:        "q1w2e",
+			ConfirmPassword: "q1w2e3r4",
+		}},
+	}
+
+	for _, test := range tests {
+		buf, _ := json.Marshal(test.resquet)
+
+		req, _ := http.NewRequestWithContext(ctx, "POST", "/api/v1/auth/sign-up", bytes.NewReader(buf))
+		suite.router.ServeHTTP(w, req)
+
+		responseData, _ := io.ReadAll(w.Body)
+		var res models.BadRequestMessage
+		_ = json.Unmarshal(responseData, &res)
+		assert.Equal(suite.T(), http.StatusBadRequest, w.Code, test.name)
+	}
+	//
+	//payload := &models.SignUpModel{
+	//	Name:            "",
+	//	Email:           "",
+	//	Nickname:        "",
+	//	ZipCode:         "",
+	//	DateBirth:       time.Time{},
+	//	Password:        "",
+	//	ConfirmPassword: "",
+	//}
+	//
+	//buf, _ := json.Marshal(payload)
+	//
+	//req, _ := http.NewRequestWithContext(ctx, "POST", "/api/v1/auth/sign-up", bytes.NewReader(buf))
+	//suite.router.ServeHTTP(w, req)
+	//
+	////mockResponse := "Its Alive and Kicking!"
+	//responseData, _ := io.ReadAll(w.Body)
+	//var res models.BadRequestMessage
+	//err := json.Unmarshal(responseData, &res)
+	//if err != nil {
+	//	return
+	//}
+	//
+	//assert.Equal(suite.T(), http.StatusBadRequest, w.Code)
+}
+
+func (suite *AuthControllerSuite) TestShouldCreateUserWithSuccess() {
+
+	w := httptest.NewRecorder()
+	ctx := GetTestGinContext(w)
+
+	model := &models.SignUpModel{
+		Name:            "Marcos",
+		Email:           "marcos.mota287@gmail.com",
+		Nickname:        "mota287",
+		ZipCode:         "14085-058",
+		Password:        "q1w2e3r4",
+		ConfirmPassword: "q1w2e3r4",
+	}
+
+	buf, _ := json.Marshal(model)
 
 	req, _ := http.NewRequestWithContext(ctx, "POST", "/api/v1/auth/sign-up", bytes.NewReader(buf))
 	suite.router.ServeHTTP(w, req)
 
-	//mockResponse := "Its Alive and Kicking!"
 	responseData, _ := io.ReadAll(w.Body)
 	var res models.BadRequestMessage
-	err := json.Unmarshal(responseData, &res)
-	if err != nil {
-		return
+	_ = json.Unmarshal(responseData, &res)
+	assert.Equal(suite.T(), http.StatusOK, w.Code)
+
+}
+
+func (suite *AuthControllerSuite) TestCreateUserWithFailed() {
+
+	w := httptest.NewRecorder()
+	ctx := GetTestGinContext(w)
+
+	model := &models.SignUpModel{
+		Name:            "Marcos",
+		Email:           "marcos.mota287@gmail.com",
+		Nickname:        "mota287",
+		ZipCode:         "14085-058",
+		Password:        "q1w2e3r4",
+		ConfirmPassword: "q1w2e3r4",
 	}
 
-	assert.Equal(suite.T(), http.StatusBadRequest, w.Code)
+	buf, _ := json.Marshal(model)
+
+	req, _ := http.NewRequestWithContext(ctx, "POST", "/api/v1/auth/sign-up", bytes.NewReader(buf))
+	suite.router.ServeHTTP(w, req)
+
+	responseData, _ := io.ReadAll(w.Body)
+	var res models.BadRequestMessage
+	_ = json.Unmarshal(responseData, &res)
+	assert.Equal(suite.T(), http.StatusOK, w.Code)
+
 }
 
 func TestAuthControllerSuite(t *testing.T) {
