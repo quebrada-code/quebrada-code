@@ -96,6 +96,7 @@ func (a AuthController) SignUp(c *gin.Context) {
 	err = a.authService.CreateUser(entity)
 	if err != nil {
 		_ = c.AbortWithError(http.StatusInternalServerError, err)
+		c.JSON(http.StatusInternalServerError, models.Response{Message: err.Error()})
 		return
 	}
 

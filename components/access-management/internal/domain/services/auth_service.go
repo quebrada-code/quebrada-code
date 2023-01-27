@@ -161,7 +161,7 @@ func (a *AuthService) ResetPassword(email string, token string, newPassword stri
 
 func (a *AuthService) GenerateEmailConfirmationToken(user entities.User) error {
 	subject := "Quebrada Code - Seja bem-vindo"
-	template := "/Users/marcos.lopes/projects/pessoal/plataform/quebrada_api/resources/welcome.html"
+	template := "/Users/marcos.lopes/projects/pessoal/plataform/quebrada-code/components/access-management/resources/welcome.html"
 	data := VerificationCode{Name: user.Name, VerificationCode: user.VerificationCode}
 	err := a.sender.Send([]string{user.Email}, subject, template, data)
 	if err != nil {
