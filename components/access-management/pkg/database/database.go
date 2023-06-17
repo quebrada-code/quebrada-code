@@ -19,5 +19,21 @@ func InitDB(connectionString string) *gorm.DB {
 	migrations.Migrate(db)
 
 	return db
-
 }
+
+//func CheckConnection(connectionString string) *gorm.DB {
+//
+//	db, err := gorm.Open(postgres.New(postgres.Config{
+//		DSN: connectionString,
+//	}), &gorm.Config{})
+//
+//	if err != nil {
+//		panic("failed to connect database")
+//	}
+//
+//	defer db.C()
+//
+//	migrations.Migrate(db)
+//
+//	return db
+//}

@@ -10,7 +10,7 @@ func Migrate(database *gorm.DB) {
 
 	logger.Info("Start migrations")
 
-	err := database.AutoMigrate(&entities.User{}, &entities.Role{}, &entities.Policy{}, &entities.UserAccess{})
+	err := database.AutoMigrate(&entities.User{}, &entities.Role{}, &entities.Policy{}, &entities.UserAccess{}, &entities.Problem{})
 	if err != nil {
 		logger.Error(err)
 		panic("Failed on migrate database")
@@ -20,5 +20,6 @@ func Migrate(database *gorm.DB) {
 	database.Model(&entities.Role{})
 	database.Model(&entities.Policy{})
 	database.Model(&entities.UserAccess{})
+	database.Model(&entities.Problem{})
 
 }

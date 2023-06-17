@@ -16,6 +16,10 @@ func ValidateModel[T models.IModel](c *gin.Context) (T, error) {
 
 	var model T
 	if err := c.BindJSON(&model); err != nil {
+		c.AbortWithStatusJSON(
+			400,
+			err,
+		)
 		return model, err
 	}
 

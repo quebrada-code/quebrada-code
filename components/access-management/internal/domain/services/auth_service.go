@@ -11,6 +11,7 @@ import (
 	"quebrada_api/internal/infrastructure/senders"
 	"quebrada_api/pkg/identity"
 	"quebrada_api/pkg/logger"
+	"quebrada_api/resources"
 )
 
 type IAuthService interface {
@@ -161,9 +162,8 @@ func (a *AuthService) ResetPassword(email string, token string, newPassword stri
 
 func (a *AuthService) GenerateEmailConfirmationToken(user entities.User) error {
 	subject := "Quebrada Code - Seja bem-vindo"
-	template := "/Users/marcos.lopes/projects/pessoal/plataform/quebrada-code/components/access-management/resources/welcome.html"
 	data := VerificationCode{Name: user.Name, VerificationCode: user.VerificationCode}
-	err := a.sender.Send([]string{user.Email}, subject, template, data)
+	err := a.sender.Send([]string{user.Email}, subject, resources.WelcomeTemplate, data)
 	if err != nil {
 		logger.Error("failed to send welcome email.")
 	}
@@ -171,11 +171,15 @@ func (a *AuthService) GenerateEmailConfirmationToken(user entities.User) error {
 }
 
 func (a *AuthService) ConfirmEmail(userId uint, token string) error {
-	var user entities.User
+	user, err := a.userRepository.GetByID(userId)
+	if err != nil {
+		return err
+	}
 	tx := a.DB.First(&user, user)
 	if tx.Error != nil {
 		return tx.Error
 	}
+
 	if user.VerificationCode != token {
 		return errors.New("verification code invalid")
 	}

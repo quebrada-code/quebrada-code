@@ -23,6 +23,10 @@ type (
 		ConnectionString string
 	}
 
+	KafkaConfig struct {
+		ConnectionString string
+	}
+
 	STMPConfig struct {
 		Host     string
 		Port     int
