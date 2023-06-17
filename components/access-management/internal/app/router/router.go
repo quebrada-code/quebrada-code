@@ -5,7 +5,7 @@ import (
 	"quebrada_api/internal/app/controllers"
 )
 
-// @title Quebrada Code API
+// @title Authentication API
 // @version 1.0
 // @description REST API for Quebrada Code API
 
@@ -13,8 +13,7 @@ import (
 // @BasePath /api/v1/
 
 type Router struct {
-	AuthController   controllers.AuthController
-	CourseController controllers.CourseController
+	AuthController controllers.AuthController
 }
 
 func (h *Router) Init(api *gin.RouterGroup) {

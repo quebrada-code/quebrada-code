@@ -59,7 +59,7 @@ host: localhost:9090
 info:
   contact: {}
   description: REST API for Quebrada Code API
-  title: Quebrada Code API
+  title: Authentication API
   version: "1.0"
 paths:
   /auth/confirm-reset-password:

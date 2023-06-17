@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestGenerateToken(t *testing.T) {
+func TestGenerateTokenWithSuccess(t *testing.T) {
 	t.Run("Generate token with sucess", func(t *testing.T) {
 		tokenManager := identity.NewTokenManager("secret", "Bikash")
 		user := entities.User{
@@ -30,7 +30,7 @@ func TestGenerateToken(t *testing.T) {
 	})
 }
 
-func TestReadToken(t *testing.T) {
+func TestReadTokenWithSucess(t *testing.T) {
 	t.Run("Read token with sucess", func(t *testing.T) {
 		tokenManager := identity.NewTokenManager("secret", "teste")
 		user := entities.User{

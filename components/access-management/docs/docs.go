@@ -398,7 +398,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:9090",
 	BasePath:         "/api/v1/",
 	Schemes:          []string{},
-	Title:            "Quebrada Code API",
+	Title:            "Authentication API",
 	Description:      "REST API for Quebrada Code API",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

@@ -5,5 +5,5 @@ type Response struct {
 }
 
 type BadRequestMessage struct {
-	Message string `json:"message"`
+	Errors map[string]error `json:"errors"`
 }
