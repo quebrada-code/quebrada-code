@@ -1,0 +1,5 @@
+http:
+  port: 80
+
+database:
+  ttl: 3600s
