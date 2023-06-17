@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -40,14 +41,37 @@ func main() {
 		ginSwagger.DefaultModelsExpandDepth(-1))
 
 	r.GET("/alive", func(c *gin.Context) {
+		sqlDB, _ := db.DB()
+		err := sqlDB.Ping()
+		if err != nil {
+			_ = c.AbortWithError(http.StatusInternalServerError, err)
+			return
+		}
 		c.String(http.StatusOK, "Its Alive and Kicking!")
 	})
 
 	m := middlewares.NewMonitoringMiddleware("quebrada_api", "/metrics")
 	m.Use(r)
 
+	producer, err := kafka.NewProducer(&kafka.ConfigMap{
+		"bootstrap.servers": "kafka-131424-0.cloudclusters.net:15379",
+		"security.protocol": "SASL_SSL",
+		"sasl.mechanism":    "SCRAM-SHA-256",
+		"sasl.username":     "teste",
+		"sasl.password":     "q1w2e3r4",
+		"ssl.ca.location":   "/Users/marcos.lopes/projects/pessoal/plataform/quebrada-code/components/access-management/truststore.pem",
+		//"ssl.certificate.location": "/Users/marcos.lopes/projects/pessoal/plataform/quebrada-code/components/access-management/keystore.pem",
+		//"ssl.key.location":         "/Users/marcos.lopes/projects/pessoal/plataform/quebrada-code/components/access-management/keystore.pem",
+		//"ssl.key.password":         "51oaeIOy",
+	})
+
+	if err != nil {
+		panic(fmt.Sprintf("Failed to create producer: %s", err))
+	}
+
 	routerManager := router.Router{
-		AuthController: InitAuthController(db, cfg.SMPT),
+		AuthController:    InitAuthController(db, cfg.SMPT),
+		ProblemController: InitProblemController(db, producer),
 	}
 
 	api := r.Group("/api")

@@ -11,3 +11,8 @@ func ProvideAuthController(
 	tokenManager identity.TokenManager) *controllers.AuthController {
 	return controllers.NewAuthController(authService, tokenManager)
 }
+
+func ProvideProblemController(
+	problemService services.IProblemService) *controllers.ProblemController {
+	return controllers.NewProblemController(problemService)
+}

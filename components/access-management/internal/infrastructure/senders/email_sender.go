@@ -4,9 +4,8 @@ import (
 	"bytes"
 	"github.com/go-gomail/gomail"
 	"github.com/pkg/errors"
-	"html/template"
 	"quebrada_api/internal/config"
-	"quebrada_api/pkg/logger"
+	"quebrada_api/resources"
 )
 
 type EmailSender struct {
@@ -19,16 +18,11 @@ func NewEmailSender(config config.STMPConfig) *EmailSender {
 	}
 }
 
-func (e *EmailSender) generateBodyFromHTML(templateFileName string, data interface{}) (string, error) {
-	t, err := template.ParseFiles(templateFileName)
-	if err != nil {
-		logger.Errorf("failed to parse file %s:%s", templateFileName, err.Error())
-
-		return "", err
-	}
+func (e *EmailSender) generateBodyFromHTML(templateEmail resources.TemplateEmail, data interface{}) (string, error) {
+	t := templateEmail.GetTemplate()
 
 	buf := new(bytes.Buffer)
-	if err = t.Execute(buf, data); err != nil {
+	if err := t.Execute(buf, data); err != nil {
 		return "", err
 	}
 	body := buf.String()
@@ -39,7 +33,7 @@ func (e *EmailSender) validate() error {
 	return nil
 }
 
-func (e *EmailSender) Send(to []string, subject string, template string, data interface{}) error {
+func (e *EmailSender) Send(to []string, subject string, template resources.TemplateEmail, data interface{}) error {
 	if err := e.validate(); err != nil {
 		return err
 	}
