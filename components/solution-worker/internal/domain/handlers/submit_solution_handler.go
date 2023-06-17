@@ -83,10 +83,7 @@ func (h SolutionSubmitHandler) getOutputResult(path string) (events.OutputSoluti
 	fmt.Println("Successfully Opened users.json")
 	// defer the closing of our jsonFile so that we can parse it later on
 	defer func(jsonFile *os.File) {
-		err := jsonFile.Close()
-		if err != nil {
-
-		}
+		jsonFile.Close()
 	}(jsonFile)
 
 	byteValue, _ := io.ReadAll(jsonFile)
