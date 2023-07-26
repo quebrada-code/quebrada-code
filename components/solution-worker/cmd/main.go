@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"solution-worker/config"
+	config "solution-worker/config"
 	"solution-worker/internal/domain/events"
 	"solution-worker/ioc"
 	"syscall"

@@ -1,29 +1,14 @@
-#FROM golang:alpine AS builder
-#WORKDIR /build
-#ADD go.mod .
-#RUN go install ./...
-#COPY . .
+FROM golang:1.20-alpine3.17 AS builder
 
-#RUN go build -o solution-worker ./cmd/main.go
-#
-#FROM alpine
-#WORKDIR /build
-#COPY --from=builder /build/solution-worker /build/solution-worker
-#CMD ["./solution-worker"]
-
-FROM golang:alpine AS builder
 
 RUN apk update && apk add bash ca-certificates git gcc g++ libc-dev librdkafka-dev pkgconf
 
-WORKDIR /build
+WORKDIR "/code"
+ADD . "/code"
 
-# Fetch dependencies
-COPY go.mod go.sum ./
-# Build
-COPY . ./
-RUN CGO_ENABLED=1 go build -tags muls  ./...
-# Create final image
+RUN go build -tags musl -o solution-worker ./cmd/main.go
+
 FROM alpine
 WORKDIR /
-COPY --from=builder /build/solution-worker .
+COPY --from=builder /code/solution-worker .
 CMD ["./solution-worker"]
